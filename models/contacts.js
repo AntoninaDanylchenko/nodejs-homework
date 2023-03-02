@@ -30,7 +30,7 @@ const removeContact = async (contactId) => {
       (item) => String(item.id) !== String(contactId)
     );
     await fs.writeFile(contactsPath, JSON.stringify(newContacts, null, 4));
-    return newContacts;
+    return contacts.find((item) => String(item.id) === String(contactId));
   } catch (e) {
     console.log(e);
   }
@@ -50,23 +50,14 @@ const addContact = async (body) => {
 const updateContact = async (contactId, body) => {
   try {
     const contacts = await listContacts();
+    const idx = contacts.findIndex(
+      (item) => String(item.id) === String(contactId)
+    );
+    contacts[idx] = { contactId, ...body };
 
-    if (body.name) {
-      contacts.find((item) => String(item.id) === String(contactId)).name =
-        body.name;
-    }
-    if (body.email) {
-      contacts.find((item) => String(item.id) === String(contactId)).email =
-        body.email;
-    }
-    if (body.phone) {
-      contacts.find((item) => String(item.id) === String(contactId)).phone =
-        body.phone;
-    }
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 4));
 
-    await fs.writeFile(contactId, JSON.stringify(contacts, null, 4));
-
-    return contacts.find((item) => String(item.id) === String(contactId));
+    return contacts[idx];
   } catch (er) {
     console.log(er.message);
   }

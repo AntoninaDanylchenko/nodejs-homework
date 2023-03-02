@@ -14,14 +14,6 @@ const contactSchema = Joi.object({
     .regex(/^[0-9]{10}$/)
     .required(),
 });
-const contactDelSchema = Joi.object({
-  name: Joi.string(),
-  email: Joi.string().email({
-    minDomainSegments: 2,
-    tlds: { allow: ["com", "net"] },
-  }),
-  phone: Joi.string().regex(/^[0-9]{10}$/),
-});
 
 const {
   listContacts,
@@ -122,7 +114,7 @@ router.put("/:contactId", async (req, res, next) => {
       error.status = 400;
       throw error;
     }
-    const { error } = contactDelSchema.validate(req.body);
+    const { error } = contactSchema.validate(req.body);
     if (error) {
       error.message = "missing required name field";
       error.status = 400;
