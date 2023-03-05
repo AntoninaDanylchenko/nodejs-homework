@@ -3,12 +3,11 @@ const Joi = require("joi");
 const { handleSchemaErrorValidation } = require("../midlewares");
 
 const addSchemaJoi = Joi.object({
-  name: Joi.string(),
+  name: Joi.string().required(),
   email: Joi.string().email({
     minDomainSegments: 2,
-    tlds: { allow: ["com", "net"] },
   }),
-  phone: Joi.string().pattern(/^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/),
+  phone: Joi.string(),
   favorite: Joi.boolean(),
 });
 
