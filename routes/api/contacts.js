@@ -7,30 +7,49 @@ const {
   validation,
   validationFavorite,
   ctrlWrapper,
-} = require("../../midlewares/index");
+  authMiddleware,
+} = require("../../midlewares");
+
 const { schemas } = require("../../models/index");
 
 const validationMidleware = validation(schemas.addSchemaJoi);
 
 const router = express.Router();
 
-router.get("/", ctrlWrapper(ctrl.getAll));
+router.get("/", authMiddleware, ctrlWrapper(ctrl.getAll));
 
-router.get("/:contactId", isValidId, ctrlWrapper(ctrl.getContactById));
+router.get(
+  "/:contactId",
+  authMiddleware,
+  isValidId,
+  ctrlWrapper(ctrl.getContactById)
+);
 
-router.post("/", validationMidleware, ctrlWrapper(ctrl.addContact));
+router.post(
+  "/",
+  authMiddleware,
+  validationMidleware,
+  ctrlWrapper(ctrl.addContact)
+);
 
 router.put(
   "/:contactId",
+  authMiddleware,
   isValidId,
   validationMidleware,
   ctrlWrapper(ctrl.updateContact)
 );
 
-router.delete("/:contactId", isValidId, ctrlWrapper(ctrl.removeContact));
+router.delete(
+  "/:contactId",
+  authMiddleware,
+  isValidId,
+  ctrlWrapper(ctrl.removeContact)
+);
 
 router.patch(
   "/:contactId/favorite",
+  authMiddleware,
   isValidId,
   validationFavorite(schemas.updateFavoriteSchema),
   ctrlWrapper(ctrl.updateStatusContact)
