@@ -1,19 +1,17 @@
 const { Contact } = require("../../models/index");
-const { createError } = require("../../helpers");
+const { СreateError } = require("../../helpers");
 
 const getContactById = async (req, res) => {
   const { contactId } = req.params;
-  const result = await Contact.findById(contactId);
-  if (!result) {
-    createError(404, "Not found");
-  }
-  res.json({
-    status: "success",
-    code: 200,
-    data: {
-      result,
-    },
+  const { id } = req.user;
+  const searchedContact = await Contact.findOne({
+    _id: contactId,
+    owner: id,
   });
+  if (!searchedContact) {
+    throw new СreateError(404, "Not found");
+  }
+  res.status(200).json(searchedContact);
 };
 
 module.exports = getContactById;

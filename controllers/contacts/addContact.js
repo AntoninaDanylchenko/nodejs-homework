@@ -1,14 +1,9 @@
 const { Contact } = require("../../models/index");
 
 const addContact = async (req, res) => {
-  const result = await Contact.create(req.body);
-  res.status(201).json({
-    status: "success",
-    code: 201,
-    data: {
-      result,
-    },
-  });
+  const { id } = req.user;
+  const contact = await Contact.create({ ...req.body, owner: id });
+  res.status(201).json(contact);
 };
 
 module.exports = addContact;
