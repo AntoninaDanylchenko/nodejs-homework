@@ -1,5 +1,5 @@
-const { CreateError } = require("./createError");
+const { HttpError } = require("./HttpError");
 
 module.exports = {
-  CreateError,
+  HttpError,
 };

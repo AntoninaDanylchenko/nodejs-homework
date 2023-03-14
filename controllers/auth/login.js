@@ -1,5 +1,5 @@
 const { User } = require("../../models");
-const { CreateError } = require("../../helpers");
+const { HttpError } = require("../../helpers");
 const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
@@ -7,7 +7,7 @@ const login = async (req, res) => {
   const user = await User.findOne({ email });
   console.log(User);
   if (!user || !user.comparePassword(password)) {
-    throw new CreateError(401, "Email or password is wrong");
+    throw new HttpError(401, "Email or password is wrong");
   }
   const payload = {
     id: user._id,

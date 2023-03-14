@@ -4,7 +4,6 @@ const {
   handleSchemaErrorValidation,
 } = require("./handleSchemaErrorValidation");
 const isValidId = require("./isValidId");
-// const { authCurrent } = require("./authCurrent");
 const { authMiddleware } = require("./authMiddleware");
 
 module.exports = {
@@ -14,5 +13,4 @@ module.exports = {
   handleSchemaErrorValidation,
   isValidId,
   authMiddleware,
-  // authCurrent,
 };
