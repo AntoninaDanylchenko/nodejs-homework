@@ -1,7 +1,8 @@
 const { HttpError } = require("../../helpers");
 const { User } = require("../../models");
+const { ctrlWrapper } = require("../../midlewares");
 
-const updateSubscription = async (req, res) => {
+let updateSubscription = async (req, res) => {
   const { id } = req.user;
   const updatedUser = await User.findByIdAndUpdate(id, req.body);
   if (!updatedUser) {
@@ -9,4 +10,6 @@ const updateSubscription = async (req, res) => {
   }
   res.status(200).json(updatedUser);
 };
+updateSubscription = ctrlWrapper(updateSubscription);
+
 module.exports = updateSubscription;
