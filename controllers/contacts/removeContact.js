@@ -1,5 +1,5 @@
 const { Contact } = require("../../models/index");
-const { CreateError } = require("../../helpers");
+const { HttpError } = require("../../helpers");
 
 const removeContact = async (req, res) => {
   const { contactId } = req.params;
@@ -10,7 +10,7 @@ const removeContact = async (req, res) => {
     owner: id,
   });
   if (!deletedContact) {
-    throw new CreateError(404, "Not found");
+    throw new HttpError(404, "Not found");
   }
 
   res.status(200).json("contact deleted");

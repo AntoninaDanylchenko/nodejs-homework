@@ -1,5 +1,5 @@
 const { Contact } = require("../../models/index");
-const { СreateError } = require("../../helpers");
+const { HttpError } = require("../../helpers");
 
 const getContactById = async (req, res) => {
   const { contactId } = req.params;
@@ -9,7 +9,7 @@ const getContactById = async (req, res) => {
     owner: id,
   });
   if (!searchedContact) {
-    throw new СreateError(404, "Not found");
+    throw new HttpError(404, "Not found");
   }
   res.status(200).json(searchedContact);
 };
