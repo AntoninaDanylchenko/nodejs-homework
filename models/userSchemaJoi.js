@@ -15,8 +15,16 @@ const addUserSchemaJoi = Joi.object({
 const userSubscriptionSchemaJoi = Joi.object({
   subscription: Joi.string().required().valid("starter", "pro", "business"),
 });
+const userEmailVerificationSchemaJoi = Joi.object({
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2,
+    })
+    .required(),
+});
 
 module.exports = {
   addUserSchemaJoi,
   userSubscriptionSchemaJoi,
+  userEmailVerificationSchemaJoi,
 };
